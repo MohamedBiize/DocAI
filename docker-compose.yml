@@ -8,6 +8,8 @@ services:
     volumes:
       - .:/app
       - ./data:/app/data
+    env_file:
+      - .env
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/docai
       - CHROMA_DB_PATH=/app/data/chroma
