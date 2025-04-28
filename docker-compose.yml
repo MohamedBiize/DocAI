@@ -1,50 +1,49 @@
 version: '3.8'
 
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: docai_backend
+  api:
+    build: .
     ports:
       - "8000:8000"
     volumes:
-      - ./app:/app  # Mount local app code for development hot-reloading
+      - .:/app
+      - ./data:/app/data
     environment:
-      - DATABASE_URL=postgresql://docai_user:docai_password@db:5432/docai_db
-      - CHROMA_HOST=chroma
-      - CHROMA_PORT=8000
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/docai
+      - CHROMA_DB_PATH=/app/data/chroma
+      - DEBUG=True
     depends_on:
       - db
       - chroma
     networks:
-      - docai_network
+      - docai-network
 
   db:
-    image: postgres:15-alpine
-    container_name: docai_postgres
-    environment:
-      POSTGRES_DB: docai_db
-      POSTGRES_USER: docai_user
-      POSTGRES_PASSWORD: docai_password
+    image: postgres:15
     volumes:
-      - ./db_data/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=docai
     ports:
       - "5432:5432"
     networks:
-      - docai_network
+      - docai-network
 
   chroma:
-    image: chromadb/chroma:latest # Use the official ChromaDB image
-    container_name: docai_chroma
+    image: chromadb/chroma:latest
     volumes:
-      - ./db_data/chroma:/chroma/chroma # Persist ChromaDB data
+      - ./data/chroma:/chroma/data
     ports:
-      - "8001:8000" # Expose ChromaDB on host port 8001
+      - "8001:8000"
     networks:
-      - docai_network
+      - docai-network
+
+volumes:
+  postgres_data:
 
 networks:
-  docai_network:
+  docai-network:
     driver: bridge
 
