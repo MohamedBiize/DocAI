@@ -1,6 +1,12 @@
 fastapi
 uvicorn[standard]
 langchain
+langchain-community
+langchain-openai # Placeholder for OpenAI or other LLM integrations
 psycopg2-binary
 chromadb
 python-dotenv
+pypdf # For PDF loading
+python-docx # For DOCX loading
+
+reportlab
