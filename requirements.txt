@@ -1,12 +1,14 @@
-fastapi
-uvicorn[standard]
-langchain
-langchain-community
-langchain-openai # Placeholder for OpenAI or other LLM integrations
-psycopg2-binary
-chromadb
-python-dotenv
-pypdf # For PDF loading
-python-docx # For DOCX loading
-
-reportlab
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+langchain>=0.0.350
+langchain-community>=0.0.10
+langchain-openai>=0.0.5
+psycopg2-binary>=2.9.9
+chromadb>=0.4.18
+python-dotenv>=1.0.0
+pypdf>=3.17.0
+python-docx>=1.0.1
+reportlab>=4.0.8
+pytest>=7.4.3
+httpx>=0.25.1
+python-multipart>=0.0.6
